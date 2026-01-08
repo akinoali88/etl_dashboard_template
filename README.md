@@ -4,8 +4,6 @@
 
 **A production-grade ETL pipeline and interactive Dash application for XYZ.**
 
-https://github.com/user-attachments/assets/de07eabc-7789-481e-aa2b-2742890e4be2
-
 An end-to-end Python application designed to 
 
 
