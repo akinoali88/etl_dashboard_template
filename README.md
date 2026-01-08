@@ -44,6 +44,7 @@ Application styling and interface are developed with **Dash Boostrap Components*
 ```bash
 git clone <repository-url>
 cd folder name
+uv venv
 uv sync
 ```
 
