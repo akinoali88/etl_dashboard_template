@@ -69,6 +69,9 @@ def create_page_header(header_title: str,
         icon_class : str, optional
             The Bootstrap Icon class (e.g., 'bi-droplet-fill').
             If provided, it appears above the footer_text.
+
+            Find icon libary here: https://icons.getbootstrap.com/
+            
     Returns:
         dbc.Card
             A Dash Bootstrap Component Card object containing the formatted header 
