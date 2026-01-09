@@ -12,7 +12,7 @@ import pandas as pd
 
 def create_dash_app(df: pd.DataFrame,) -> Dash:
     '''
-    Create and configure a Dash application for baby feeding schedule visualization.
+    Create and configure a Dash application for xyz.
 
     Parameters:    
         df : pd.DataFrame
