@@ -6,8 +6,7 @@ create state card and create page header
 '''
 
 import dash_bootstrap_components as dbc
-from dash import dcc, html
-import pandas as pd
+from dash import html
 
 def create_stat_card(title: str,
                      id_name: str,
