@@ -6,7 +6,7 @@ import pandas as pd
 from plotly.graph_objects import Figure
 
 
-def daily_feed_vol_by_age(df: pd.DataFrame) -> Figure:
+def create_chart(df: pd.DataFrame) -> Figure:
     '''
     Generate a plot...
     
