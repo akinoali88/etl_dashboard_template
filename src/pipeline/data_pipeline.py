@@ -151,6 +151,15 @@ class DataPipeline:
         total_errors = error_df['total_errors'].sum()
 
         if total_errors > 0:
+
+        # Determine pluralisation
+        input_label = "input has" if total_errors == 1 else "inputs have"
+
+        print(f"✅ {len(df_validated)} / {len(df)} records have passed validation checks. "
+              f"\n🚨 {total_errors} {input_label} failed validation of the"
+              f"{bold}insert reference{end_bold} requirements. "
+              "Please investigate further.")
+            
             print(f"\n🚨 {total_errors} inputs have failed validation for "
                   f"{bold}insert reference{end_bold} datasets. "
                   "Please investigate further.")
