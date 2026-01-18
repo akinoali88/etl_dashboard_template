@@ -10,13 +10,13 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Data(BaseModel):
 
-    '''Class representing feeding data for a child'''
+    '''Class representing validation schema'''
 
     var_1: int
     var_2: float
     date_var: datetime
 
-class ChildConfig(BaseModel):
+class Config(BaseModel):
 
     '''Schema for private data'''
     item_1: str
