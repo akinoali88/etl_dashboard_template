@@ -100,66 +100,52 @@ class DataPipeline:
         bold = self.bold
         end_bold = self.end_bold
 
-        data_list = []
-        errors = []
+        valid_records = []
+        error_records = []
 
         # Validate each row using Pydantic models
-        for _, row in df.iterrows():
+        for record_dict in df.to_dict('records'):
             try:
                 # The Pydantic model validates the row data during instantiation
-                record = Data(**row.to_dict())
+                record = Data(**record_dict)
 
                 # ensures enum values serialized to str by using json mode
-                data_list.append(record.model_dump(mode='json'))
+                valid_records.append(record.model_dump(mode='json'))
 
             except ValidationError as e:
 
-                # Collect error details for each invalid row
-                output_errors = []
+                # Format the message for a single error, separated by new lines
+                details = "\n".join(
+                    f"{i}) {err['loc'][0]}: {err['msg']}"
+                    for i, err in enumerate(e.errors(), 1)
+                    )
 
-                # Accessing individual elements of the error dictionary
-                for i, error in enumerate(e.errors(), 1):
+                # 2. Add one single entry to the error list
+                error_records.append({
+                    **record_dict,
+                    'total_errors': e.error_count(),
+                    'error_details': details
+                })
 
-                    # Format the message for a single error, separated by new lines
-                    output_error = f"{i}) {error['input']}: {error['msg']}"
-                    output_errors.append(output_error)
-                    error_details = ".\n".join(output_errors)
+        df_validated = pd.DataFrame(valid_records)
+        df_errors = pd.DataFrame(error_records)
 
-                    error_row = {**row.to_dict(),   # include original data for reference
-                                'total_errors': e.error_count(),
-                                'error_details': error_details}
-
-                    errors.append(error_row)
-
-        # Create DataFrame for valid records
-
-        id_col = 'insert here'
-
-        idx = pd.to_datetime([r[id_col] for r in data_list])
-        df_validated = pd.DataFrame(data_list, index=idx)
-        df_validated.index.name = id_col
-        df_validated = df_validated.drop(columns=[id_col], errors='ignore')
-
-        # Create DataFrame for error records
-        col_names = df.columns.tolist()
-        col_names += ['total_errors', 'error_details']
-
-        error_df = pd.DataFrame(errors,
-                                columns=col_names)
-
-        # --- Summary Report at the End ---
-        total_errors = error_df['total_errors'].sum()
+        total_errors = df_errors['total_errors'].sum() if not df_errors.empty else 0
 
         if total_errors > 0:
-            print(f"\n🚨 {total_errors} inputs have failed validation for "
-                  f"{bold}insert reference{end_bold} datasets. "
-                  "Please investigate further.")
+            # Determine pluralisation
+            input_label = "input has" if total_errors == 1 else "inputs have"
+
+            print(f"✅ {len(df_validated)} / {len(df)} records have passed validation checks. "
+                f"\n🚨 {total_errors} {input_label} failed validation of the "
+                f"{bold}golf course {end_bold} requirements. "
+                "Please investigate further.")
 
         else:
-            print("\n✅ All rows passed validation successfully for "
-                  f"{bold}insert reference{end_bold} datasets.")
+            print("✅ All rows passed validation successfully of "
+                    f"{bold}golf course{end_bold} datasets.")
 
-        self.input_data_errors = error_df
+        self.input_data_errors = df_errors
         self.validated_data = df_validated
 
         return df_validated
