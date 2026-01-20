@@ -1,5 +1,5 @@
 '''
-Render the home tab for the Child Feeding Progress Tracker dashboard.
+Render the home tab for app.
 '''
 
 from io import StringIO

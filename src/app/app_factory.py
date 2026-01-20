@@ -12,7 +12,7 @@ import pandas as pd
 
 def create_dash_app(df: pd.DataFrame,) -> Dash:
     '''
-    Create and configure a Dash application for baby feeding schedule visualization.
+    Create and configure a Dash application for xyz.
 
     Parameters:    
         df : pd.DataFrame
@@ -54,7 +54,7 @@ def create_dash_app(df: pd.DataFrame,) -> Dash:
 
                 # --- Tab 2 ---
                 dbc.Tab([
-                    render_individual_feeds_tab(
+                    render_page2(
                         df, slider_parameters, default_child)],
                     label='<insert tab 2 name>',
                     label_class_name='bg-primary-subtle text-grey',

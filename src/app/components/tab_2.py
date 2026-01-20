@@ -1,5 +1,5 @@
 '''
-Render the individual feeds page tab for the Child Feeding Progress Tracker dashboard.
+Render the 2nd page...
 '''
 
 from io import StringIO
@@ -7,11 +7,8 @@ from dash import dcc, html, callback, Input, Output
 from dash.exceptions import PreventUpdate
 import dash_bootstrap_components as dbc
 import pandas as pd
-from src.app.base_graphs import violin_plot_feed_volume
-from src.app.dashboard_logic import (
-    create_page_header, create_child_checklist, create_age_range_slider)
 
-def render_individual_feeds_tab(df: pd.DataFrame,
+def render_page2(df: pd.DataFrame,
                                 ) -> dbc.Container:
 
     '''
